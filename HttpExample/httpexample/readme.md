@@ -1,4 +1,4 @@
-# HTTP Ejemplo de Petición HTTP
+# Ejemplo de Petición HTTP
 
 Ejemplo de una petición GET utiliznado la libreria httpClient: 
     
