@@ -14,8 +14,8 @@ const char GPRS_PASS    "XXXX"
 const char SSID[] = "XXXXX";
 const char PASS[] = "XXXXX";
 
-const char kHostname[] = "kreelcarlos.cloudapp.net";
-const char kPath[] = "/tinshar/mails";
+const char kHostname[] = "google.com";
+const char kPath[] = "/";
 
 const int kNetworkTimeout = 30*1000;
 const int kNetworkDelay = 1000;
