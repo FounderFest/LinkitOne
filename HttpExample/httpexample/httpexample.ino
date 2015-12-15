@@ -6,9 +6,9 @@
 #include "HttpClient.h"
 
 //Replace with your information
-const char GPRS_APN     "XXXX.XXXX.XX"
-const char GPRS_USER    "XXXX"
-const char GPRS_PASS    "XXXX"
+const char GPRS_APN =  "XXXX.XXXX.XX"
+const char GPRS_USER = "XXXX"
+const char GPRS_PASS = "XXXX"
 
 //Replace with your configuration
 const char SSID[] = "XXXXX";
