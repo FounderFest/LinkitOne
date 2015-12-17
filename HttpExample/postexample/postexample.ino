@@ -11,10 +11,11 @@ const char GPRS_USER[] = "XXXX";
 const char GPRS_PASS[] = "XXXX";
 
 //Replace with your configuration
-const char SSID[] = "SSDI";
+const char SSID[] = "SSID";
 const char PASS[] = "PASS";
 
 const char kHostname[] = "YOURDOMAIN.net";
+const int kPort = 80;
 const char kPath[] = "/";
 
 const int kNetworkTimeout = 30*1000;
@@ -54,12 +55,33 @@ void setup() {
 
 void loop() {
   int err = 0;
+  char *json = "{\"mail\":\"ajaii@linkitone.co\"}";
   LWiFiClient c;
   //LGPRSClient c;
   HttpClient http(c);
-  err = http.get(kHostname, kPath);
+  Serial.println(json);
+  http.beginRequest();
+  http.connect(kHostname, kPort);
+  Serial.println(http.connected());
   if(err == 0) {
     Serial.println("Inicio la petición");
+    c.print("POST ");
+    c.print(kPath);
+    c.println(" HTTP/1.1");
+    c.print("Host:");
+    c.print(kHostname);
+    if(kPort != 80) {
+      c.print(":");
+      c.print(kPort);
+    }
+    c.println();
+    http.sendHeader(HTTP_HEADER_USER_AGENT, "LinkitOne/1.0");
+    http.sendHeader(HTTP_HEADER_CONNECTION, "close");
+    http.sendHeader("Content-Type", "application/json");
+    http.sendHeader("Content-Length", strlen(json));
+    http.sendHeader("");
+    http.sendHeader(json);
+    http.endRequest();
     err = http.responseStatusCode();
     if(err >= 0) {
       Serial.println("Se obtuvo código de estatus:");
@@ -78,10 +100,9 @@ void loop() {
         unsigned long timeoutStart = millis();
         //char c;
         while((http.connected() || http.available()) &&
-                (millis() - timeoutStart) < kNetworkTimeout){
+                (millis() - timeoutStart) < kNetworkTimeout || bodyLen > 0){
           if(http.available()) {
             body[i] = http.read();
-            //Serial.println(c);
             bodyLen--;
             i++;
             timeoutStart = millis();  
